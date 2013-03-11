@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>KnockoutJS</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css' />
+
+    <link rel="stylesheet" href="tools/reveal.js/css/reveal.css"/>
+    <link rel="stylesheet" href="tools/reveal.js/css/theme/default.css" id="theme"/>
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="tools/reveal.js/lib/css/zenburn.css"/>
+
+    <script>
+        // If the query includes 'print-pdf' we'll use the PDF print sheet
+        document.write('<link rel="stylesheet" href="tools/reveal.js/css/print/' + (window.location.search.match(/print-pdf/gi) ? 'pdf' : 'paper') + '.css" type="text/css" media="print">');
+    </script>
+	
+	<script src="tools/knockout/knockout.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="tools/reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="reveal">
+
+    <!-- Used to fade in a background when a specific slide state is reached -->
+    <div class="state-background"></div>
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <section>
+            <h1>KnockoutJS</h1>
+            <q>MVVM for a single page application</q>
+        </section>
+
+		<section>
+			<h2>The frameworks</h2>
+			<ul>
+				<li>KnockoutJS (MVVM, handles binding)</li>
+				<li>RequireJS (AMD, handles dependencies)</li>
+				<li>SammyJS (Handles routing)</li>
+			</ul>
+		</section>
+		
+		<section>
+			<h1>KnockoutJS</h1>
+			<h5>ViewModel</h5>
+			<pre><code class="javascript">
+{
+    title:ko.observable("hello world"),
+    listOfValues:ko.observableArray([1,2,3])
+}
+			</code></pre>
+			<h5>View</h5>
+			<pre><code class="html">
+&lt;input data-bind="value:title"/> 
+&ltspan data-bind="text:title">&lt/span>
+&lt;ul data-bind="foreach:listOfValues">
+    &lt;li data-bind="text:$data">&lt/li>
+&lt/ul>
+			</code></pre>
+
+			<h5>Result</h5>
+			<div id="ko1">
+			<input data-bind="value:title"/> 
+			<span data-bind="text:title"></span>
+			<ul data-bind="foreach:listOfValues">
+				<li data-bind="text:$data"></li>
+			</ul>
+			<script>
+				ko.applyBindings({
+					title:ko.observable("hello world"),listOfValues:ko.observableArray([1,2,3])
+				},document.getElementById("ko1"));
+			</script>
+		</section>
+
+		<section>
+			<section>
+				<h1>RequireJS</h1>
+				<h4>Asyncronous module definition</h4>
+				<strong>Initiating the application</strong>
+				<pre><code class="html">
+&ltscript src="/Scripts/require.js" data-main="/Scripts/app/App.js">&lt/script>
+				</code></pre>
+				<h5>File structure</h5>
+				<img src="images/requireStructure.png" />
+				<aside class="notes">
+					<p>RequireJS will use the folder that the main is in as a root folder for requested modules</p>
+				</aside>
+			</section>
+			<section>
+				<h3>app.js</h3>
+				<pre><code class="javascript">
+require(["module","viewModels/todoItem"],function(m,todo){
+  //Do something that depends on "module" and "todoItem"
+});
+				</code></pre>
+				
+				<h3>viewModels/todoItem.js</h3>
+				<pre><code class="javascript">
+define([],function(){
+  var todoItem=function(){
+    //Constructor function
+  };
+  //Add prototype functions etc.
+  return todoItem;
+});
+				</code></pre>
+			</section>
+		</section>
+		<section>
+            <h1>SammyJS</h1>
+
+			<pre><code class="javascript">
+$.sammy(function(){
+  this.get('#/',function(){
+    //Apply root data
+  }
+  this.get('#/item/:id',function(){
+    var id=this.params["id"];
+	//Download the item "id" and display it
+  }
+});
+			</code></pre>
+			
+        </section>
+        <section>
+            <h1>Your mission</h1>
+
+			<ul>
+				<li>Add todo items to the created todo lists</li>
+				<li>delete todo items</li>
+				<li>edit todo items</li>
+				<li><strong>Advanced</strong> Add tags to the tasks</li>
+				<li><strong>Advanced</strong> Add a view that is filtered on #/:tag with sammy</li>
+			</ul>
+			<p>
+			</p>
+        </section>
+		
+		<section>
+			<h1>Get coding!</h1>
+			<h6>Stuff you will use</h6>
+			<ul>
+				<li>KnockoutJS</li>
+				<li>value</li>
+				<li>text</li>
+				<li>foreach</li>
+				<li>click</li>
+				<li>$parent</li>
+				<li>ko.observable</li>
+				<li>ko.observableArray</li>
+				<li></li>
+				<li>RequireJS</li>
+				<li>define</li>
+    </div>
+
+    <!-- Presentation progress bar -->
+    <div class="progress"><span></span></div>
+
+</div>
+
+<script src="tools/reveal.js/lib/js/head.min.js"></script>
+<script src="tools/reveal.js/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+
+        theme: Reveal.getQueryHash().theme || 'jayway', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/linear(2d)
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'tools/reveal.js/plugin/highlight/highlight.js', async: true, callback: function () {
+                window.hljs.initHighlightingOnLoad();
+            } },
+            { src: 'tools/reveal.js/lib/js/classList.js', condition: function () {
+                return !document.body.classList;
+            } },
+			{ src: 'tools/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+			{ src: 'tools/reveal.js/plugin/zoom-js/zoom.js', async: true },
+        ]
+    });
+
+</script>
+
+</body>
+</html>

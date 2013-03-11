@@ -1,0 +1,29 @@
+﻿<header>
+    <h1>My Todo List</h1>
+</header>
+
+    <div id="main-content">
+        <button data-bind="click: addTodoList">Add Todo list</button>
+
+        <section id="lists" data-bind="foreach: todoLists, visible: todoLists().length > 0">
+            <article class="todoList">
+                <header>
+                    <form>
+                        <input required data-bind="value:title" />
+                    </form>
+                </header>
+
+                <a href="#" class="deletelist" data-bind="click: $parent.deleteTodoList">X</a>
+                
+                <!-- this is a good spot for some todo items... -->
+                
+                
+                <!-- and here you could add a creation form -->
+            </article>
+        </section>
+    </div>
+
+
+@section scripts{
+    <script src="/Scripts/require.js" data-main="/Scripts/app/App.js"></script>
+}
